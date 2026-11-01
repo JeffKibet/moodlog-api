@@ -1,9 +1,8 @@
 import os
-
 from flask import Flask
-
 from extensions import db, migrate, bcrypt
-
+from flask_restful import Api
+from resources.auth import Signup, Login, CheckSession, Logout
 
 def create_app():
     app = Flask(__name__)
@@ -16,7 +15,12 @@ def create_app():
     bcrypt.init_app(app)
 
     import models  
-
+    
+    api = Api(app)
+    api.add_resource(Signup, "/signup")
+    api.add_resource(Login, "/login")
+    api.add_resource(CheckSession, "/check_session")
+    api.add_resource(Logout, "/logout")
     return app
 
 
